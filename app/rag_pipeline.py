@@ -20,6 +20,15 @@ warnings.filterwarnings("ignore")
  
 load_dotenv()
 
+
+# ✅ CI SAFETY GUARD
+# GitHub Actions should validate imports only — NOT build FAISS or embeddings
+if os.getenv("CI") == "true":
+    def create_rag_pipeline():
+        print("✅ CI environment detected — skipping RAG pipeline initialization")
+        return None
+
+
 def create_rag_pipeline():
     try:
         # load embeddings
